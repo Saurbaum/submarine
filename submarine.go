@@ -4,25 +4,27 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
+	"github.com/saurbaum/submarine/position"
+	"github.com/saurbaum/submarine/sub"
 	"io"
 	"math/big"
 	"net/http"
 )
 
-type position struct {
-	X int64
-	Y int64
-}
+var seabed []position.Position
 
-var seabed []position
-
-var submarinePosition position
+var playerSub sub.Sub
 
 func setStartPosition() {
 	fmt.Println("Setting starting position")
-	submarinePosition.X = 0
-	submarinePosition.Y = 0
-	fmt.Println(submarinePosition)
+
+	playerSub = sub.Create(position.Position{int64(90), int64(10)})
+
+	fmt.Println(playerSub.GetLocation())
+
+	playerSub.SetLocation(position.Position{int64(9), int64(1)})
+
+	fmt.Println(playerSub.GetLocation())
 }
 
 func generateBottom(length int) {
@@ -31,7 +33,7 @@ func generateBottom(length int) {
 		yPos, _ := rand.Int(rand.Reader, big.NewInt(50))
 		x := int64(i * 10)
 		y := yPos.Int64()
-		seabed = append(seabed, position{x, y})
+		seabed = append(seabed, position.Position{x, y})
 	}
 }
 
@@ -40,7 +42,7 @@ func ping(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		fmt.Println("ping")
 
-		io.WriteString(w, "get location")
+		io.WriteString(w, "ping")
 	}
 }
 
@@ -49,7 +51,7 @@ func location(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		fmt.Println("get location")
 
-		pos, err := json.Marshal(submarinePosition)
+		pos, err := json.Marshal(playerSub.GetLocation())
 
 		if err == nil {
 			io.WriteString(w, string(pos))
