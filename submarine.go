@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/saurbaum/submarine/position"
-	"github.com/saurbaum/submarine/sub"
 	"io"
 	"math/big"
 	"net/http"
@@ -14,27 +12,13 @@ import (
 
 const playerIdHeaderKey string = "Playerid"
 
-var seabed []position.Position
+var seabed []position
 
-var players = make(map[string]sub.Sub)
+var players = make(map[string]sub)
 
-// newUUID generates a random UUID according to RFC 4122
-func newUUID() (string, error) {
-	uuid := make([]byte, 16)
-	n, err := io.ReadFull(rand.Reader, uuid)
-	if n != len(uuid) || err != nil {
-		return "", err
-	}
-	// variant bits; see section 4.1.1
-	uuid[8] = uuid[8]&^0xc0 | 0x80
-	// version 4 (pseudo-random); see section 4.1.3
-	uuid[6] = uuid[6]&^0xf0 | 0x40
-	return fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:]), nil
-}
-
-func getPlayer(r *http.Request) (sub.Sub, error) {
+func getPlayer(r *http.Request) (sub, error) {
 	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
-		return sub.Sub{}, errors.New("No playerId")
+		return sub{}, errors.New("No playerId")
 	}
 
 	var playerId = r.Header[playerIdHeaderKey][0]
@@ -45,7 +29,7 @@ func getPlayer(r *http.Request) (sub.Sub, error) {
 		return p, nil
 	}
 
-	return sub.Sub{}, errors.New("Player not found")
+	return sub{}, errors.New("Player not found")
 }
 
 func generateBottom(length int) {
@@ -54,7 +38,7 @@ func generateBottom(length int) {
 		yPos, _ := rand.Int(rand.Reader, big.NewInt(50))
 		x := int64(i * 10)
 		y := yPos.Int64()
-		seabed = append(seabed, position.Position{x, y})
+		seabed = append(seabed, position{x, y})
 	}
 }
 
@@ -119,7 +103,7 @@ func createPlayer(w http.ResponseWriter, r *http.Request) {
 			io.WriteString(w, err.Error())
 		} else {
 			// Create player and retun GUID
-			players[uuid] = sub.Create(position.Position{int64(90), int64(10)})
+			players[uuid] = CreateSub(position{int64(90), int64(10)})
 			io.WriteString(w, uuid)
 		}
 	}
