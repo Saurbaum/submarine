@@ -3,6 +3,7 @@ package main
 import (
 	"crypto/rand"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/saurbaum/submarine/position"
 	"github.com/saurbaum/submarine/sub"
@@ -11,20 +12,40 @@ import (
 	"net/http"
 )
 
+const playerIdHeaderKey string = "Playerid"
+
 var seabed []position.Position
 
-var playerSub sub.Sub
+var players = make(map[string]sub.Sub)
 
-func setStartPosition() {
-	fmt.Println("Setting starting position")
+// newUUID generates a random UUID according to RFC 4122
+func newUUID() (string, error) {
+	uuid := make([]byte, 16)
+	n, err := io.ReadFull(rand.Reader, uuid)
+	if n != len(uuid) || err != nil {
+		return "", err
+	}
+	// variant bits; see section 4.1.1
+	uuid[8] = uuid[8]&^0xc0 | 0x80
+	// version 4 (pseudo-random); see section 4.1.3
+	uuid[6] = uuid[6]&^0xf0 | 0x40
+	return fmt.Sprintf("%x-%x-%x-%x-%x", uuid[0:4], uuid[4:6], uuid[6:8], uuid[8:10], uuid[10:]), nil
+}
 
-	playerSub = sub.Create(position.Position{int64(90), int64(10)})
+func getPlayer(r *http.Request) (sub.Sub, error) {
+	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
+		return sub.Sub{}, errors.New("No playerId")
+	}
 
-	fmt.Println(playerSub.GetLocation())
+	var playerId = r.Header[playerIdHeaderKey][0]
 
-	playerSub.SetLocation(position.Position{int64(9), int64(1)})
+	var p, ok = players[playerId]
 
-	fmt.Println(playerSub.GetLocation())
+	if ok {
+		return p, nil
+	}
+
+	return sub.Sub{}, errors.New("Player not found")
 }
 
 func generateBottom(length int) {
@@ -42,7 +63,13 @@ func ping(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		fmt.Println("ping")
 
-		io.WriteString(w, "ping")
+		var _, err = getPlayer(r)
+
+		if err == nil {
+			io.WriteString(w, "ping")
+		} else {
+			io.WriteString(w, err.Error())
+		}
 	}
 }
 
@@ -51,12 +78,19 @@ func location(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		fmt.Println("get location")
 
-		pos, err := json.Marshal(playerSub.GetLocation())
+		var player, err = getPlayer(r)
 
 		if err == nil {
-			io.WriteString(w, string(pos))
+			pos, err := json.Marshal(player.GetLocation())
+
+			if err == nil {
+				io.WriteString(w, string(pos))
+				return
+			} else {
+				io.WriteString(w, "Failed to get location")
+			}
 		} else {
-			io.WriteString(w, "Failed to get location")
+			io.WriteString(w, err.Error())
 		}
 	}
 }
@@ -72,16 +106,35 @@ func seabedTest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func createPlayer(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		fmt.Println("get createPlayer")
+
+		var uuid, err = newUUID()
+
+		fmt.Println(uuid)
+
+		if err != nil {
+			io.WriteString(w, err.Error())
+		} else {
+			// Create player and retun GUID
+			players[uuid] = sub.Create(position.Position{int64(90), int64(10)})
+			io.WriteString(w, uuid)
+		}
+	}
+}
+
 func main() {
 	fmt.Println("Starting Submarine")
 
 	generateBottom(10)
-	setStartPosition()
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/location", location)
 	mux.HandleFunc("/ping", ping)
 	mux.HandleFunc("/seabed", seabedTest)
+	mux.HandleFunc("/start", createPlayer)
 
 	http.ListenAndServe(":80", mux)
 }
