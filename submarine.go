@@ -12,6 +12,8 @@ import (
 
 const playerIdHeaderKey string = "Playerid"
 
+const maxDepth int64 = 50
+
 var seabed []position
 
 var players = make(map[string]sub)
@@ -35,18 +37,20 @@ func getPlayer(r *http.Request) (sub, error) {
 func generateBottom(length int) {
 	fmt.Println("Genreating seabed")
 	for i := 0; i < length; i++ {
-		yPos, _ := rand.Int(rand.Reader, big.NewInt(50))
-		x := int64(i * 10)
+		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
+		x := int64(i * 10000)
 		y := yPos.Int64()
 		seabed = append(seabed, position{x, y})
+
+		fmt.Print(y, " ")
 	}
+
+	fmt.Println(" ")
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		fmt.Println("ping")
-
 		var _, err = getPlayer(r)
 
 		if err == nil {
@@ -60,8 +64,6 @@ func ping(w http.ResponseWriter, r *http.Request) {
 func location(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		fmt.Println("get location")
-
 		var player, err = getPlayer(r)
 
 		if err == nil {
@@ -93,7 +95,7 @@ func seabedTest(w http.ResponseWriter, r *http.Request) {
 func createPlayer(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		fmt.Println("get createPlayer")
+		fmt.Println("createPlayer")
 
 		var uuid, err = newUUID()
 
@@ -102,8 +104,12 @@ func createPlayer(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			io.WriteString(w, err.Error())
 		} else {
+			// Pick stating point somewhere above the bottom.
+			startArea := maxDepth - seabed[0].Y
+			depthPos, _ := rand.Int(rand.Reader, big.NewInt(startArea))
+
 			// Create player and retun GUID
-			players[uuid] = CreateSub(position{int64(90), int64(10)})
+			players[uuid] = CreateSub(position{int64(0), depthPos.Int64()})
 			io.WriteString(w, uuid)
 		}
 	}
@@ -119,6 +125,8 @@ func main() {
 	mux.HandleFunc("/ping", ping)
 	mux.HandleFunc("/seabed", seabedTest)
 	mux.HandleFunc("/start", createPlayer)
+
+	go updatePlayers()
 
 	http.ListenAndServe(":80", mux)
 }
