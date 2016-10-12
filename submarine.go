@@ -7,11 +7,18 @@ import (
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"math/big"
 	"runtime"
+	"time"
 )
 
 const playerIdHeaderKey string = "Playerid"
 
 const maxDepth int64 = 50000
+
+const screenWidth int = 1024
+
+const screenHeight int = 768
+
+const seabedSegments int = 10
 
 var seabed []position
 
@@ -26,7 +33,7 @@ func init() {
 func main() {
 	fmt.Println("Starting Submarine")
 
-	generateBottom(10)
+	generateBottom(seabedSegments)
 
 	go updatePlayers()
 
@@ -63,7 +70,7 @@ func render() {
 	glfw.WindowHint(glfw.Resizable, glfw.False)
 	glfw.WindowHint(glfw.ContextVersionMajor, 2)
 	glfw.WindowHint(glfw.ContextVersionMinor, 1)
-	window, err := glfw.CreateWindow(1024, 768, "Submarine", nil, nil)
+	window, err := glfw.CreateWindow(screenWidth, screenHeight, "Submarine", nil, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -76,15 +83,40 @@ func render() {
 
 	setupScene()
 
+	seabedStep := 2 / float32(seabedSegments-1)
+	seabedRatio := 2 / float32(maxDepth)
+	lastUpdate := time.Now()
+
 	for !window.ShouldClose() {
+		updateInterval := time.Since(lastUpdate)
+
+		if updateInterval.Seconds() < 0.033 {
+			sleepDuration := time.Duration(33) * time.Millisecond
+			time.Sleep(sleepDuration)
+		}
+
 		// Do OpenGL stuff.
 		gl.Clear(gl.COLOR_BUFFER_BIT)
 
 		gl.LineWidth(2.5)
 		gl.Color3f(1.0, 1.0, 0.0)
 		gl.Begin(gl.LINES)
-		gl.Vertex3f(-1, 0, 0)
-		gl.Vertex3f(1, 0, 0)
+
+		lastX := float32(0)
+		lastY := float32(0)
+
+		for index, value := range seabed {
+			if index > 1 {
+				gl.Vertex3f(lastX, lastY*-1, 0)
+			}
+			x := (float32(index) * seabedStep) - 1
+			y := (float32(value.Y) * seabedRatio) - 1
+
+			gl.Vertex3f(x, y*-1, 0)
+			lastX = x
+			lastY = y
+		}
+
 		gl.End()
 
 		window.SwapBuffers()
