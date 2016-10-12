@@ -7,7 +7,7 @@
 	],
 	"settings": {
 		"golang": {
-			"run:flags":["github.com/saurbaum/submarine/submarine.go", "github.com/saurbaum/submarine/sub.go", "github.com/saurbaum/submarine/util.go", "github.com/saurbaum/submarine/update.go"]
+			"run:flags":["github.com/saurbaum/submarine/submarine.go", "github.com/saurbaum/submarine/sub.go", "github.com/saurbaum/submarine/util.go", "github.com/saurbaum/submarine/update.go", "github.com/saurbaum/submarine/server.go"]
 		}
 	}
 }

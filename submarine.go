@@ -2,36 +2,37 @@ package main
 
 import (
 	"crypto/rand"
-	"encoding/json"
-	"errors"
 	"fmt"
-	"io"
+	"github.com/go-gl/gl/v2.1/gl"
+	"github.com/go-gl/glfw/v3.2/glfw"
 	"math/big"
-	"net/http"
+	"runtime"
 )
 
 const playerIdHeaderKey string = "Playerid"
 
-const maxDepth int64 = 50
+const maxDepth int64 = 50000
 
 var seabed []position
 
 var players = make(map[string]sub)
 
-func getPlayer(r *http.Request) (sub, error) {
-	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
-		return sub{}, errors.New("No playerId")
-	}
+func init() {
+	// This is needed to arrange that main() runs on main thread.
+	// See documentation for functions that are only allowed to be called from the main thread.
+	runtime.LockOSThread()
+}
 
-	var playerId = r.Header[playerIdHeaderKey][0]
+func main() {
+	fmt.Println("Starting Submarine")
 
-	var p, ok = players[playerId]
+	generateBottom(10)
 
-	if ok {
-		return p, nil
-	}
+	go updatePlayers()
 
-	return sub{}, errors.New("Player not found")
+	go startServer()
+
+	render()
 }
 
 func generateBottom(length int) {
@@ -48,85 +49,45 @@ func generateBottom(length int) {
 	fmt.Println(" ")
 }
 
-func ping(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		var _, err = getPlayer(r)
-
-		if err == nil {
-			io.WriteString(w, "ping")
-		} else {
-			io.WriteString(w, err.Error())
-		}
-	}
+func setupScene() {
+	gl.ClearColor(0, 0, 0, 1)
 }
 
-func location(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		var player, err = getPlayer(r)
-
-		if err == nil {
-			pos, err := json.Marshal(player.GetLocation())
-
-			if err == nil {
-				io.WriteString(w, string(pos))
-				return
-			} else {
-				io.WriteString(w, "Failed to get location")
-			}
-		} else {
-			io.WriteString(w, err.Error())
-		}
+func render() {
+	err := glfw.Init()
+	if err != nil {
+		panic(err)
 	}
-}
+	defer glfw.Terminate()
 
-func seabedTest(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		fmt.Println("get seabedTest")
-
-		bed, _ := json.Marshal(seabed)
-
-		io.WriteString(w, string(bed))
+	glfw.WindowHint(glfw.Resizable, glfw.False)
+	glfw.WindowHint(glfw.ContextVersionMajor, 2)
+	glfw.WindowHint(glfw.ContextVersionMinor, 1)
+	window, err := glfw.CreateWindow(1024, 768, "Submarine", nil, nil)
+	if err != nil {
+		panic(err)
 	}
-}
 
-func createPlayer(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		fmt.Println("createPlayer")
+	window.MakeContextCurrent()
 
-		var uuid, err = newUUID()
-
-		fmt.Println(uuid)
-
-		if err != nil {
-			io.WriteString(w, err.Error())
-		} else {
-			// Pick stating point somewhere above the bottom.
-			startArea := maxDepth - seabed[0].Y
-			depthPos, _ := rand.Int(rand.Reader, big.NewInt(startArea))
-
-			// Create player and retun GUID
-			players[uuid] = CreateSub(position{int64(0), depthPos.Int64()})
-			io.WriteString(w, uuid)
-		}
+	if err := gl.Init(); err != nil {
+		panic(err)
 	}
-}
 
-func main() {
-	fmt.Println("Starting Submarine")
+	setupScene()
 
-	generateBottom(10)
+	for !window.ShouldClose() {
+		// Do OpenGL stuff.
+		gl.Clear(gl.COLOR_BUFFER_BIT)
 
-	mux := http.NewServeMux()
-	mux.HandleFunc("/location", location)
-	mux.HandleFunc("/ping", ping)
-	mux.HandleFunc("/seabed", seabedTest)
-	mux.HandleFunc("/start", createPlayer)
+		gl.LineWidth(2.5)
+		gl.Color3f(1.0, 1.0, 0.0)
+		gl.Begin(gl.LINES)
+		gl.Vertex3f(-1, 0, 0)
+		gl.Vertex3f(1, 0, 0)
+		gl.End()
 
-	go updatePlayers()
-
-	http.ListenAndServe(":80", mux)
+		window.SwapBuffers()
+		glfw.PollEvents()
+	}
 }
