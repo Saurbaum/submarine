@@ -91,7 +91,7 @@
 			"file": "submarine.go",
 			"settings":
 			{
-				"buffer_size": 2273,
+				"buffer_size": 2301,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -155,7 +155,7 @@
 			],
 			[
 				"Packages/Golang Build/Go.sublime-build",
-				"Run"
+				""
 			]
 		],
 		[
@@ -175,7 +175,7 @@
 			]
 		]
 	],
-	"build_varint": "Run",
+	"build_varint": "",
 	"command_palette":
 	{
 		"height": 784.0,
@@ -296,15 +296,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2273,
+						"buffer_size": 2301,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1797,
-								1797
+								2283,
+								2283
 							]
 						],
 						"settings":
@@ -313,7 +313,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2749.0,
+						"translation.y": 2832.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

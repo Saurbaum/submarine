@@ -14,9 +14,9 @@ const playerIdHeaderKey string = "Playerid"
 
 const maxDepth int64 = 50000
 
-const screenWidth int = 1024
+const screenWidth int = 2000
 
-const screenHeight int = 768
+const screenHeight int = 1000
 
 const seabedSegments int = 10
 
@@ -121,5 +121,7 @@ func render() {
 
 		window.SwapBuffers()
 		glfw.PollEvents()
+
+		lastUpdate = time.Now()
 	}
 }
