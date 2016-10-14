@@ -14,11 +14,21 @@ const playerIdHeaderKey string = "Playerid"
 
 const maxDepth int64 = 50000
 
-const screenWidth int = 2000
+const screenWidth int = 1500
 
 const screenHeight int = 1000
 
+const seabedStepWidth int = 10000
+
 const seabedSegments int = 10
+
+const seabedStep float32 = 2 / float32(seabedSegments-1)
+
+const seabedWitdthRatio float32 = 2 / float32(seabedStep*float32(seabedStepWidth))
+
+const seabedDepthRatio float32 = 2 / float32(maxDepth)
+
+const playerVisualSize float32 = 0.01
 
 var seabed []position
 
@@ -46,7 +56,7 @@ func generateBottom(length int) {
 	fmt.Println("Genreating seabed")
 	for i := 0; i < length; i++ {
 		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
-		x := int64(i * 10000)
+		x := int64(i * seabedStepWidth)
 		y := yPos.Int64()
 		seabed = append(seabed, position{x, y})
 
@@ -83,8 +93,6 @@ func render() {
 
 	setupScene()
 
-	seabedStep := 2 / float32(seabedSegments-1)
-	seabedRatio := 2 / float32(maxDepth)
 	lastUpdate := time.Now()
 
 	for !window.ShouldClose() {
@@ -98,30 +106,56 @@ func render() {
 		// Do OpenGL stuff.
 		gl.Clear(gl.COLOR_BUFFER_BIT)
 
-		gl.LineWidth(2.5)
-		gl.Color3f(1.0, 1.0, 0.0)
-		gl.Begin(gl.LINES)
-
-		lastX := float32(0)
-		lastY := float32(0)
-
-		for index, value := range seabed {
-			if index > 1 {
-				gl.Vertex3f(lastX, lastY*-1, 0)
-			}
-			x := (float32(index) * seabedStep) - 1
-			y := (float32(value.Y) * seabedRatio) - 1
-
-			gl.Vertex3f(x, y*-1, 0)
-			lastX = x
-			lastY = y
-		}
-
-		gl.End()
+		drawSeabed()
+		drawPlayers()
 
 		window.SwapBuffers()
 		glfw.PollEvents()
 
 		lastUpdate = time.Now()
+	}
+}
+
+func drawSeabed() {
+	gl.LineWidth(2.5)
+	gl.Color3f(1.0, 1.0, 0.0)
+	gl.Begin(gl.LINES)
+
+	lastX := float32(0)
+	lastY := float32(0)
+
+	for index, value := range seabed {
+		if index > 1 {
+			gl.Vertex3f(lastX, lastY*-1, 0)
+		}
+		x := (float32(index) * seabedStep) - 1
+		y := (float32(value.Y) * seabedDepthRatio) - 1
+
+		gl.Vertex3f(x, y*-1, 0)
+		lastX = x
+		lastY = y
+	}
+
+	gl.End()
+}
+
+func drawPlayers() {
+	for _, player := range players {
+		if player.IsAlive() {
+			gl.Color3f(1.0, 0.0, 1.0)
+			gl.Begin(gl.QUADS)
+
+			screenLocation := player.GetLocation()
+
+			X := (float32(screenLocation.X) * float32(seabedWitdthRatio)) - 1
+			Y := ((float32(screenLocation.Y) * seabedDepthRatio) - 1) * -1
+
+			gl.Vertex3f(float32(X)-playerVisualSize, float32(Y)-playerVisualSize, 0)
+			gl.Vertex3f(float32(X)+playerVisualSize, float32(Y)-playerVisualSize, 0)
+			gl.Vertex3f(float32(X)+playerVisualSize, float32(Y)+playerVisualSize, 0)
+			gl.Vertex3f(float32(X)-playerVisualSize, float32(Y)+playerVisualSize, 0)
+
+			gl.End()
+		}
 	}
 }
