@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 )
 
@@ -26,6 +27,12 @@ func updatePlayers() {
 				if testCollision(value.location) {
 					//value.alive = false
 					//fmt.Println("Crashed")
+				}
+
+				fmt.Println("player: ", value.location.X, " Max", maxDistance)
+				if value.location.X >= int64(maxDistance) {
+					value.alive = false
+					fmt.Println("Finished")
 				}
 
 				updatedPlayers[key] = value

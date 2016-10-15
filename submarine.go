@@ -24,12 +24,14 @@ const seabedSegments int = 10
 
 const seabedStep float32 = 2 / float32(seabedSegments-1)
 
-const seabedWitdthRatio float32 = 2 / float32(seabedStep*float32(seabedStepWidth))
-
 const seabedDepthRatio float32 = 2 / float32(maxDepth)
 
 const playerVisualHeight float32 = 0.01
 const playerVisualWidth float32 = 0.01 * float32(float32(screenHeight)/float32(screenWidth))
+
+const maxDistance int = seabedStepWidth * (seabedSegments - 1)
+
+const seabedWitdthRatio float32 = 2 / float32(maxDistance)
 
 var seabed []position
 
@@ -61,7 +63,7 @@ func generateBottom(length int) {
 		y := yPos.Int64()
 		seabed = append(seabed, position{x, y})
 
-		fmt.Print(y, " ")
+		fmt.Print("x: ", x, " y:", y, " ")
 	}
 
 	fmt.Println(" ")
@@ -129,7 +131,7 @@ func drawSeabed() {
 		if index > 1 {
 			gl.Vertex3f(lastX, lastY*-1, 0)
 		}
-		x := (float32(index) * seabedStep) - 1
+		x := (float32(value.X) * seabedWitdthRatio) - 1
 		y := (float32(value.Y) * seabedDepthRatio) - 1
 
 		gl.Vertex3f(x, y*-1, 0)

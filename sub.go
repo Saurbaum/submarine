@@ -14,7 +14,7 @@ type sub struct {
 }
 
 func CreateSub(startPosition position) sub {
-	return sub{speed: 0.1, heading: 0, buoyancy: 0, location: startPosition, updated: time.Now(), alive: true}
+	return sub{speed: 1, heading: 0, buoyancy: 0, location: startPosition, updated: time.Now(), alive: true}
 }
 
 func (s sub) GetLocation() position {
