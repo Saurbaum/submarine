@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"pl",
+				"player"
+			],
+			[
+				"dr",
+				"drawPlayers"
+			],
+			[
 				"Y",
 				"yPos"
 			],
@@ -22,10 +30,6 @@
 			[
 				"scr",
 				"screenHeight"
-			],
-			[
-				"pl",
-				"playerMaxDepth"
 			],
 			[
 				"up",
@@ -91,7 +95,16 @@
 			"file": "submarine.go",
 			"settings":
 			{
-				"buffer_size": 2301,
+				"buffer_size": 3287,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sub.go",
+			"settings":
+			{
+				"buffer_size": 986,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -106,19 +119,11 @@
 			}
 		},
 		{
-			"file": "submarine.sublime-project",
-			"settings":
-			{
-				"buffer_size": 311,
-				"encoding": "UTF-8",
-				"line_ending": "Unix"
-			}
-		},
-		{
 			"file": "update.go",
 			"settings":
 			{
-				"buffer_size": 1224,
+				"buffer_size": 1188,
+				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -155,7 +160,7 @@
 			],
 			[
 				"Packages/Golang Build/Go.sublime-build",
-				""
+				"Run"
 			]
 		],
 		[
@@ -175,7 +180,7 @@
 			]
 		]
 	],
-	"build_varint": "",
+	"build_varint": "Run",
 	"command_palette":
 	{
 		"height": 203.0,
@@ -237,6 +242,7 @@
 	],
 	"file_history":
 	[
+		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/submarine.sublime-project",
 		"/C/Users/ian_n/AppData/Local/Temp/Temp1_Princess Maker 2.zip/pm2/README.TXT",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/server.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/go-gl/examples/gl21-cube/cube.go",
@@ -246,7 +252,6 @@
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/render.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/sub.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/util.go",
-		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/submarine.sublime-project",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/position/position.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/sub/sub.go",
 		"/C/Users/ian_n/AppData/Roaming/Sublime Text 3/Packages/User/golang.sublime-settings",
@@ -281,6 +286,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"seabedRatio",
+			"seabedStep",
 			"lastUpdate",
 			"sub.Sub",
 			"updatePosText",
@@ -313,15 +320,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2301,
+						"buffer_size": 3287,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1948,
-								1948
+								678,
+								678
 							]
 						],
 						"settings":
@@ -330,7 +337,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 2832.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -338,6 +345,35 @@
 				},
 				{
 					"buffer": 1,
+					"file": "sub.go",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 986,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								227,
+								227
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 188.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "server.go",
 					"semi_transient": false,
 					"settings":
@@ -366,49 +402,20 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "submarine.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 311,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								296,
-								296
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 2431.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
 					"buffer": 3,
 					"file": "update.go",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1224,
+						"buffer_size": 1188,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								325,
-								152
+								22,
+								22
 							]
 						],
 						"settings":
@@ -420,7 +427,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]

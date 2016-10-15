@@ -28,7 +28,8 @@ const seabedWitdthRatio float32 = 2 / float32(seabedStep*float32(seabedStepWidth
 
 const seabedDepthRatio float32 = 2 / float32(maxDepth)
 
-const playerVisualSize float32 = 0.01
+const playerVisualHeight float32 = 0.01
+const playerVisualWidth float32 = 0.01 * float32(float32(screenHeight)/float32(screenWidth))
 
 var seabed []position
 
@@ -150,10 +151,10 @@ func drawPlayers() {
 			X := (float32(screenLocation.X) * float32(seabedWitdthRatio)) - 1
 			Y := ((float32(screenLocation.Y) * seabedDepthRatio) - 1) * -1
 
-			gl.Vertex3f(float32(X)-playerVisualSize, float32(Y)-playerVisualSize, 0)
-			gl.Vertex3f(float32(X)+playerVisualSize, float32(Y)-playerVisualSize, 0)
-			gl.Vertex3f(float32(X)+playerVisualSize, float32(Y)+playerVisualSize, 0)
-			gl.Vertex3f(float32(X)-playerVisualSize, float32(Y)+playerVisualSize, 0)
+			gl.Vertex3f(float32(X)-playerVisualWidth, float32(Y)-playerVisualHeight, 0)
+			gl.Vertex3f(float32(X)+playerVisualWidth, float32(Y)-playerVisualHeight, 0)
+			gl.Vertex3f(float32(X)+playerVisualWidth, float32(Y)+playerVisualHeight, 0)
+			gl.Vertex3f(float32(X)-playerVisualWidth, float32(Y)+playerVisualHeight, 0)
 
 			gl.End()
 		}
