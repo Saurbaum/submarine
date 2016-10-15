@@ -25,11 +25,10 @@ func updatePlayers() {
 				value.updateLocation(updateInterval)
 
 				if testCollision(value.location) {
-					//value.alive = false
-					//fmt.Println("Crashed")
+					value.alive = false
+					fmt.Println("Crashed")
 				}
 
-				fmt.Println("player: ", value.location.X, " Max", maxDistance)
 				if value.location.X >= int64(maxDistance) {
 					value.alive = false
 					fmt.Println("Finished")
@@ -49,27 +48,33 @@ func testCollision(location position) bool {
 	band := 0
 
 	for index, value := range seabed {
-		if location.X > value.X {
-			band = index
+		if location.X < value.X {
+			band = index - 1
 			break
 		}
 	}
 
-	if band == len(seabed) {
-		return true
+	startDepth := seabed[band].Y
+	endDepth := seabed[band+1].Y
+
+	if location.Y < startDepth && location.Y < endDepth {
+		return false
 	}
 
-	sideDifference := seabed[band+1].X - seabed[band].X
+	baseDifference := seabed[band+1].X - seabed[band].X
 
 	playerSideDifference := location.X - seabed[band].X
 
-	ratio := sideDifference / playerSideDifference
+	ratio := float32(playerSideDifference) / float32(baseDifference)
 
-	depthDifference := seabed[band].Y - seabed[band+1].Y
+	depthDifference := endDepth - startDepth
 
-	playerMaxDepth := depthDifference * ratio
+	playerMaxDepth := startDepth + int64(float32(depthDifference)*ratio)
+
+	fmt.Println("playerDepth: ", location.Y, " Max depth", playerMaxDepth)
 
 	if playerMaxDepth < location.Y {
+		fmt.Println("x: ", location.X, " y: ", location.Y, " max depth: ", playerMaxDepth)
 		return true
 	}
 
