@@ -31,7 +31,7 @@ func startServer() {
 	mux.HandleFunc("/seabed", seabedTest)
 	mux.HandleFunc("/start", createPlayer)
 
-	http.ListenAndServe(":80", mux)
+	http.ListenAndServe(":8080", mux)
 }
 
 func getPlayer(r *http.Request) (sub, error) {
