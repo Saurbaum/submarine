@@ -1,11 +1,9 @@
 package main
 
 import (
-	"crypto/rand"
 	"fmt"
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.2/glfw"
-	"math/big"
 	"runtime"
 	"time"
 )
@@ -44,7 +42,7 @@ func init() {
 }
 
 func main() {
-	fmt.Println("Starting Submarine")
+	fmt.Println("Starting Submarine Server")
 
 	generateBottom(seabedSegments)
 
@@ -53,20 +51,6 @@ func main() {
 	go startServer()
 
 	render()
-}
-
-func generateBottom(length int) {
-	fmt.Println("Genreating seabed")
-	for i := 0; i < length; i++ {
-		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
-		x := int64(i * seabedStepWidth)
-		y := yPos.Int64()
-		seabed = append(seabed, position{x, y})
-
-		fmt.Print("x: ", x, " y:", y, " ")
-	}
-
-	fmt.Println(" ")
 }
 
 func setupScene() {

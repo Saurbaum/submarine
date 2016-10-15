@@ -10,6 +10,20 @@ import (
 	"net/http"
 )
 
+func generateBottom(length int) {
+	fmt.Println("Genreating seabed")
+	for i := 0; i < length; i++ {
+		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
+		x := int64(i * seabedStepWidth)
+		y := yPos.Int64()
+		seabed = append(seabed, position{x, y})
+
+		fmt.Print("x: ", x, " y:", y, " ")
+	}
+
+	fmt.Println(" ")
+}
+
 func startServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/location", location)
@@ -93,8 +107,7 @@ func createPlayer(w http.ResponseWriter, r *http.Request) {
 			io.WriteString(w, err.Error())
 		} else {
 			// Pick stating point somewhere above the bottom.
-			startArea := maxDepth - seabed[0].Y
-			depthPos, _ := rand.Int(rand.Reader, big.NewInt(startArea))
+			depthPos, _ := rand.Int(rand.Reader, big.NewInt(seabed[0].Y))
 
 			// Create player and retun GUID
 			players[uuid] = CreateSub(position{int64(0), depthPos.Int64()})
