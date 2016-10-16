@@ -9,8 +9,6 @@ var lastUpdate time.Time = time.Now()
 
 func updatePlayers() {
 	for {
-		updatedPlayers := make(map[string]sub)
-
 		updateInterval := time.Since(lastUpdate)
 
 		if updateInterval.Seconds() < 0.033 {
@@ -20,7 +18,7 @@ func updatePlayers() {
 
 		updateInterval = time.Since(lastUpdate)
 
-		for key, value := range players {
+		for _, value := range players {
 			if value.alive {
 				value.updateLocation(updateInterval)
 
@@ -33,12 +31,8 @@ func updatePlayers() {
 					value.alive = false
 					fmt.Println("Finished")
 				}
-
-				updatedPlayers[key] = value
 			}
 		}
-
-		players = updatedPlayers
 
 		lastUpdate = time.Now()
 	}

@@ -8,8 +8,6 @@ import (
 	"time"
 )
 
-const playerIdHeaderKey string = "Playerid"
-
 const maxDepth int64 = 50000
 
 const screenWidth int = 1500
@@ -33,7 +31,7 @@ const seabedWitdthRatio float32 = 2 / float32(maxDistance)
 
 var seabed []position
 
-var players = make(map[string]sub)
+var players = make(map[string]*sub)
 
 func init() {
 	// This is needed to arrange that main() runs on main thread.

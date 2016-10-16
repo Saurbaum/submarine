@@ -7,14 +7,14 @@ import (
 type sub struct {
 	speed    float64
 	heading  float64
-	buoyancy int64
+	buoyancy float64
 	location position
 	updated  time.Time
 	alive    bool
 }
 
-func CreateSub(startPosition position) sub {
-	return sub{speed: 1, heading: 0, buoyancy: 0, location: startPosition, updated: time.Now(), alive: true}
+func CreateSub(startPosition position) *sub {
+	return &sub{speed: 1, heading: 0, buoyancy: 0, location: startPosition, updated: time.Now(), alive: true}
 }
 
 func (s sub) GetLocation() position {
@@ -23,8 +23,10 @@ func (s sub) GetLocation() position {
 
 func (s *sub) updateLocation(updateInterval time.Duration) {
 	distance := (s.speed * float64(updateInterval/time.Millisecond))
+	depth := (s.buoyancy * float64(updateInterval/time.Millisecond))
 
 	s.location.X = s.location.X + int64(distance)
+	s.location.Y = s.location.Y + int64(depth)
 }
 
 func (s sub) GetSpeed() float64 {
@@ -35,12 +37,12 @@ func (s *sub) SetSpeed(newSpeed float64) {
 	s.speed = newSpeed
 }
 
-func (s sub) GetBuoyancy() int64 {
+func (s sub) GetBuoyancy() float64 {
 	return s.buoyancy
 }
 
-func (s *sub) SetBuoyancy(newBuoyancy int64) {
-	s.buoyancy = newBuoyancy
+func (s *sub) SetBuoyancy(newBuoyancy float64) {
+	s.buoyancy -= newBuoyancy
 }
 
 func (s sub) GetHeading() float64 {

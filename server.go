@@ -8,7 +8,11 @@ import (
 	"io"
 	"math/big"
 	"net/http"
+	"strconv"
 )
+
+const playerIdHeaderKey string = "Playerid"
+const buoyancyHeaderKey string = "Buoyancy"
 
 func generateBottom(length int) {
 	fmt.Println("Genreating seabed")
@@ -26,17 +30,17 @@ func generateBottom(length int) {
 
 func startServer() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/location", location)
 	mux.HandleFunc("/ping", ping)
 	mux.HandleFunc("/seabed", seabedTest)
 	mux.HandleFunc("/start", createPlayer)
+	mux.HandleFunc("/buoyancy", buoyancy)
 
 	http.ListenAndServe(":8080", mux)
 }
 
-func getPlayer(r *http.Request) (sub, error) {
+func getPlayer(r *http.Request) (*sub, error) {
 	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
-		return sub{}, errors.New("No playerId")
+		return nil, errors.New("No playerId")
 	}
 
 	var playerId = r.Header[playerIdHeaderKey][0]
@@ -47,7 +51,7 @@ func getPlayer(r *http.Request) (sub, error) {
 		return p, nil
 	}
 
-	return sub{}, errors.New("Player not found")
+	return nil, errors.New("Player not found")
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
@@ -63,19 +67,22 @@ func ping(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func location(w http.ResponseWriter, r *http.Request) {
+func buoyancy(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var player, err = getPlayer(r)
+		var p, err = getPlayer(r)
+		fmt.Println("buoyancy for player: ", p)
 
 		if err == nil {
-			pos, err := json.Marshal(player.GetLocation())
-
+			fmt.Println("r.Header: ", r.Header)
+			var buoyancyString = r.Header[buoyancyHeaderKey][0]
+			fmt.Println("buoyancyString: ", buoyancyString)
+			buoyancy, err := strconv.ParseFloat(buoyancyString, 64)
 			if err == nil {
-				io.WriteString(w, string(pos))
-				return
+				p.SetBuoyancy(buoyancy)
+				io.WriteString(w, "buoyancy")
 			} else {
-				io.WriteString(w, "Failed to get location")
+				io.WriteString(w, err.Error())
 			}
 		} else {
 			io.WriteString(w, err.Error())
