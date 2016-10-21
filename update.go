@@ -19,16 +19,16 @@ func updatePlayers() {
 		updateInterval = time.Since(lastUpdate)
 
 		for _, value := range players {
-			if value.alive {
+			if value.isAlive() {
 				value.updateLocation(updateInterval)
 
 				if testCollision(value.location) {
-					value.alive = false
+					value.Alive = false
 					fmt.Println("Crashed")
 				}
 
 				if value.location.X >= int64(maxDistance) {
-					value.alive = false
+					value.Alive = false
 					fmt.Println("Finished")
 				}
 			}

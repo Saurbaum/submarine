@@ -13,6 +13,7 @@ import (
 
 const playerIdHeaderKey string = "Playerid"
 const buoyancyHeaderKey string = "Buoyancy"
+const speedHeaderKey string = "Speed"
 
 func generateBottom(length int) {
 	fmt.Println("Genreating seabed")
@@ -34,6 +35,8 @@ func startServer() {
 	mux.HandleFunc("/seabed", seabedTest)
 	mux.HandleFunc("/start", createPlayer)
 	mux.HandleFunc("/buoyancy", buoyancy)
+	mux.HandleFunc("/speed", speed)
+	mux.HandleFunc("/status", status)
 
 	http.ListenAndServe(":8080", mux)
 }
@@ -71,19 +74,48 @@ func buoyancy(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
 		var p, err = getPlayer(r)
-		fmt.Println("buoyancy for player: ", p)
 
 		if err == nil {
-			fmt.Println("r.Header: ", r.Header)
 			var buoyancyString = r.Header[buoyancyHeaderKey][0]
-			fmt.Println("buoyancyString: ", buoyancyString)
 			buoyancy, err := strconv.ParseFloat(buoyancyString, 64)
 			if err == nil {
-				p.SetBuoyancy(buoyancy)
+				p.setBuoyancy(buoyancy)
 				io.WriteString(w, "buoyancy")
 			} else {
 				io.WriteString(w, err.Error())
 			}
+		} else {
+			io.WriteString(w, err.Error())
+		}
+	}
+}
+
+func speed(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		var p, err = getPlayer(r)
+
+		if err == nil {
+			var speedString = r.Header[speedHeaderKey][0]
+			if err == nil {
+				p.setSpeed(speedString)
+				io.WriteString(w, "speed")
+			} else {
+				io.WriteString(w, err.Error())
+			}
+		} else {
+			io.WriteString(w, err.Error())
+		}
+	}
+}
+
+func status(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		var p, err = getPlayer(r)
+
+		if err == nil {
+			io.WriteString(w, string(p.GetStatus()))
 		} else {
 			io.WriteString(w, err.Error())
 		}

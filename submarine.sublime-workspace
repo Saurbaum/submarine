@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"bou",
+				"buoyancyString"
+			],
+			[
+				"str",
+				"strconv"
+			],
+			[
 				"play",
 				"playerSideDifference"
 			],
@@ -111,7 +119,7 @@
 			"file": "submarine.go",
 			"settings":
 			{
-				"buffer_size": 3018,
+				"buffer_size": 2974,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -120,7 +128,7 @@
 			"file": "sub.go",
 			"settings":
 			{
-				"buffer_size": 984,
+				"buffer_size": 1281,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -129,7 +137,7 @@
 			"file": "server.go",
 			"settings":
 			{
-				"buffer_size": 2268,
+				"buffer_size": 2693,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -138,7 +146,7 @@
 			"file": "update.go",
 			"settings":
 			{
-				"buffer_size": 1428,
+				"buffer_size": 1327,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -176,7 +184,7 @@
 			],
 			[
 				"Packages/Golang Build/Go.sublime-build",
-				""
+				"Run"
 			]
 		],
 		[
@@ -196,7 +204,7 @@
 			]
 		]
 	],
-	"build_varint": "",
+	"build_varint": "Run",
 	"command_palette":
 	{
 		"height": 203.0,
@@ -330,7 +338,7 @@
 	"groups":
 	[
 		{
-			"selected": 2,
+			"selected": 1,
 			"sheets":
 			[
 				{
@@ -339,15 +347,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3018,
+						"buffer_size": 2974,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1076,
-								1076
+								701,
+								701
 							]
 						],
 						"settings":
@@ -356,10 +364,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1633.0,
+						"translation.y": 2479.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -368,15 +376,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 984,
+						"buffer_size": 1281,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								840,
-								840
+								729,
+								729
 							]
 						],
 						"settings":
@@ -385,10 +393,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 188.0,
+						"translation.y": 360.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
@@ -397,44 +405,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2268,
+						"buffer_size": 2693,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								645,
-								645
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Go/Go.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 216.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "update.go",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 1428,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1428,
-								1428
+								1904,
+								1904
 							]
 						],
 						"settings":
@@ -444,6 +423,35 @@
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "update.go",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1327,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								219,
+								219
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 156.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 1,

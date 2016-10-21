@@ -126,7 +126,7 @@ func drawSeabed() {
 
 func drawPlayers() {
 	for _, player := range players {
-		if player.IsAlive() {
+		if player.isAlive() {
 			gl.Color3f(1.0, 0.0, 1.0)
 			gl.Begin(gl.QUADS)
 
