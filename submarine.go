@@ -16,9 +16,7 @@ const screenHeight int = 1000
 
 const seabedStepWidth int = 10000
 
-const seabedSegments int = 10
-
-const seabedStep float32 = 2 / float32(seabedSegments-1)
+const seabedSegments int = 50
 
 const seabedDepthRatio float32 = 2 / float32(maxDepth)
 
