@@ -130,7 +130,16 @@
 			{
 				"buffer_size": 1696,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "submarine.sublime-project",
+			"settings":
+			{
+				"buffer_size": 311,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -139,7 +148,7 @@
 			{
 				"buffer_size": 3130,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		},
 		{
@@ -207,10 +216,18 @@
 	"build_varint": "Run",
 	"command_palette":
 	{
-		"height": 203.0,
-		"last_filter": "git push",
+		"height": 423.0,
+		"last_filter": "Git: add",
 		"selected_items":
 		[
+			[
+				"Git: add",
+				"Git: Add All"
+			],
+			[
+				"git",
+				"Git: Push"
+			],
 			[
 				"git push",
 				"Git: Push"
@@ -226,10 +243,6 @@
 			[
 				"git stat",
 				"Git: Status"
-			],
-			[
-				"git",
-				"Git: Commit"
 			],
 			[
 				"install",
@@ -262,7 +275,7 @@
 	},
 	"expanded_folders":
 	[
-		"/home/ian/go/src/github.com/saurbaum/submarine"
+		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine"
 	],
 	"file_history":
 	[
@@ -301,7 +314,7 @@
 	],
 	"find":
 	{
-		"height": 23.0
+		"height": 64.0
 	},
 	"find_in_files":
 	{
@@ -316,7 +329,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
-			"seabedStepWidth",
+			"buoyancy",
 			"seabedSegments",
 			"seabedStepWidth",
 			"seabedWitdthRatio",
@@ -361,8 +374,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								239,
+								239
 							]
 						],
 						"settings":
@@ -371,7 +384,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 135.0,
+						"translation.y": 90.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,
@@ -390,14 +403,42 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								1082,
+								1088
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/Go/Go.sublime-syntax",
 							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 813.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "submarine",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 28038360,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -419,8 +460,8 @@
 						"selection":
 						[
 							[
-								1692,
-								1692
+								431,
+								431
 							]
 						],
 						"settings":
@@ -429,7 +470,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 990.0,
+						"translation.y": 135.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -448,8 +489,8 @@
 						"selection":
 						[
 							[
-								219,
-								219
+								375,
+								375
 							]
 						],
 						"settings":
@@ -458,7 +499,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 156.0,
+						"translation.y": 32.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 3,
@@ -469,7 +510,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 23.0
+		"height": 39.0
 	},
 	"input":
 	{
@@ -512,7 +553,7 @@
 	},
 	"output.golang_build":
 	{
-		"height": 217.0
+		"height": 405.0
 	},
 	"output.gotools_syntax_errors":
 	{
@@ -522,7 +563,7 @@
 	"project": "submarine.sublime-project",
 	"replace":
 	{
-		"height": 42.0
+		"height": 74.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -560,7 +601,7 @@
 	"show_open_files": false,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 125.0,
+	"side_bar_width": 225.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{

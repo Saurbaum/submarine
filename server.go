@@ -33,7 +33,8 @@ func startServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", ping)
 	mux.HandleFunc("/seabed", seabedTest)
-	mux.HandleFunc("/start", createPlayer)
+	mux.HandleFunc("/connect", connect)
+	mux.HandleFunc("/start", spawnPlayer)
 	mux.HandleFunc("/buoyancy", buoyancy)
 	mux.HandleFunc("/speed", speed)
 	mux.HandleFunc("/status", status)
@@ -41,9 +42,9 @@ func startServer() {
 	http.ListenAndServe(":8080", mux)
 }
 
-func getPlayer(r *http.Request) (*sub, error) {
+func getPlayer(r *http.Request) (*sub, string, error) {
 	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
-		return nil, errors.New("No playerId")
+		return nil, "", errors.New("No playerId")
 	}
 
 	var playerId = r.Header[playerIdHeaderKey][0]
@@ -51,16 +52,16 @@ func getPlayer(r *http.Request) (*sub, error) {
 	var p, ok = players[playerId]
 
 	if ok {
-		return p, nil
+		return p, playerId, nil
 	}
 
-	return nil, errors.New("Player not found")
+	return nil, playerId, errors.New("Player not found")
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var _, err = getPlayer(r)
+		var _, _, err = getPlayer(r)
 
 		if err == nil {
 			io.WriteString(w, "ping")
@@ -73,7 +74,7 @@ func ping(w http.ResponseWriter, r *http.Request) {
 func buoyancy(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var p, err = getPlayer(r)
+		var p, _, err = getPlayer(r)
 
 		if err == nil {
 			var buoyancyString = r.Header[buoyancyHeaderKey][0]
@@ -93,7 +94,7 @@ func buoyancy(w http.ResponseWriter, r *http.Request) {
 func speed(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var p, err = getPlayer(r)
+		var p, _, err = getPlayer(r)
 
 		if err == nil {
 			var speedString = r.Header[speedHeaderKey][0]
@@ -112,7 +113,7 @@ func speed(w http.ResponseWriter, r *http.Request) {
 func status(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		var p, err = getPlayer(r)
+		var p, _, err = getPlayer(r)
 
 		if err == nil {
 			io.WriteString(w, string(p.GetStatus()))
@@ -133,10 +134,10 @@ func seabedTest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func createPlayer(w http.ResponseWriter, r *http.Request) {
+func connect(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
-		fmt.Println("createPlayer")
+		fmt.Println("connect")
 
 		var uuid, err = newUUID()
 
@@ -145,6 +146,20 @@ func createPlayer(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			io.WriteString(w, err.Error())
 		} else {
+			// Return GUID
+			io.WriteString(w, uuid)
+		}
+	}
+}
+
+func spawnPlayer(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		fmt.Println("spawnPlayer")
+
+		var _, uuid, err = getPlayer(r)
+
+		if err != nil {
 			// Pick stating point somewhere above the bottom.
 			depthPos, _ := rand.Int(rand.Reader, big.NewInt(seabed[0].Y))
 
