@@ -1,3 +1,4 @@
 *.exe
 submarine
 /cmake-build-debug/
+*.sublime-workspace
