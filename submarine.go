@@ -14,7 +14,7 @@ const screenWidth int = 1500
 
 const screenHeight int = 1000
 
-const seabedStepWidth float32 = 10
+const seabedStepWidth int = 1000
 
 const seabedSegments int = 20
 
