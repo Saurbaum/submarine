@@ -1,12 +1,9 @@
 package main
 
 import (
-	"crypto/rand"
-	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
-	"math/big"
 	"net/http"
 	"strconv"
 )
@@ -15,24 +12,9 @@ const playerIdHeaderKey string = "Playerid"
 const buoyancyHeaderKey string = "Buoyancy"
 const speedHeaderKey string = "Speed"
 
-func generateBottom(length int) {
-	fmt.Println("Genreating seabed")
-	for i := 0; i < length; i++ {
-		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
-		x := int64(i * seabedStepWidth)
-		y := yPos.Int64()
-		seabed = append(seabed, position{x, y})
-
-		fmt.Print("x: ", x, " y:", y, " ")
-	}
-
-	fmt.Println(" ")
-}
-
 func startServer() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", ping)
-	mux.HandleFunc("/seabed", seabedTest)
 	mux.HandleFunc("/connect", connect)
 	mux.HandleFunc("/start", spawnPlayer)
 	mux.HandleFunc("/buoyancy", buoyancy)
@@ -123,17 +105,6 @@ func status(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func seabedTest(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case "GET":
-		fmt.Println("get seabedTest")
-
-		bed, _ := json.Marshal(seabed)
-
-		io.WriteString(w, string(bed))
-	}
-}
-
 func connect(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case "GET":
@@ -161,10 +132,10 @@ func spawnPlayer(w http.ResponseWriter, r *http.Request) {
 
 		if err != nil {
 			// Pick stating point somewhere above the bottom.
-			depthPos, _ := rand.Int(rand.Reader, big.NewInt(seabed[0].Y))
+			depthPos := int64(0)
 
 			// Create player and retun GUID
-			players[uuid] = CreateSub(position{int64(0), depthPos.Int64()})
+			players[uuid] = CreateSub(position{int64(0), depthPos})
 			io.WriteString(w, uuid)
 		}
 	}

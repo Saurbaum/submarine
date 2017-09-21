@@ -119,25 +119,7 @@
 			"file": "submarine.go",
 			"settings":
 			{
-				"buffer_size": 2916,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "sub.go",
-			"settings":
-			{
-				"buffer_size": 1696,
-				"encoding": "UTF-8",
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "submarine.sublime-project",
-			"settings":
-			{
-				"buffer_size": 311,
+				"buffer_size": 2915,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -147,6 +129,14 @@
 			"settings":
 			{
 				"buffer_size": 3429,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "sub.go",
+			"settings":
+			{
+				"buffer_size": 1696,
 				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
@@ -161,12 +151,11 @@
 			}
 		},
 		{
-			"contents": "wget -nc -r -np -nH -R index.html https://dnd.rem.uz/",
+			"file": "/C/Users/ian_n/Documents/Go/src/ClearSCADA SigFox/server.go",
 			"settings":
 			{
-				"buffer_size": 53,
-				"line_ending": "Windows",
-				"name": "wget -nc -r -np -nH -R index.html https://dnd.rem."
+				"buffer_size": 2243,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -225,10 +214,18 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 555.0,
-		"last_filter": "build",
+		"height": 203.0,
+		"last_filter": "isntall",
 		"selected_items":
 		[
+			[
+				"isntall",
+				"Package Control: Install Package"
+			],
+			[
+				"insa",
+				"Install Package Control"
+			],
 			[
 				"build",
 				"Build With: Go - Run"
@@ -278,13 +275,16 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 784.0
+		"width": 764.0
 	},
 	"console":
 	{
 		"height": 246.0,
 		"history":
 		[
+			"go get -v github.com/gen2brain/raylib-go",
+			"gcc",
+			"gcc -version",
 			"go",
 			"bo install",
 			"go make",
@@ -308,11 +308,14 @@
 	],
 	"file_history":
 	[
+		"/C/Users/ian_n/WebCodeTest/server.go",
+		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/submarine.sublime-project",
+		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/server.go",
+		"/C/Users/ian_n/Documents/Arduino/libraries/Adafruit_NeoPixel/README.md",
+		"/C/Users/ian_n/AppData/Local/Temp/Temp1_Re-Crono-HexChat-master.zip/Re-Crono-HexChat-master/README.md",
 		"/C/Users/ian_n/Documents/RPG/D&D/Unsorted/dd_drow.txt",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/util.go",
-		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/submarine.sublime-project",
 		"/C/Users/ian_n/AppData/Local/Temp/Temp1_Princess Maker 2.zip/pm2/README.TXT",
-		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/server.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/go-gl/examples/gl21-cube/cube.go",
 		"/C/Users/ian_n/Documents/Go/src/render.go",
 		"/C/Users/ian_n/Documents/Go/src/github.com/saurbaum/submarine/submarine.go",
@@ -338,7 +341,7 @@
 	],
 	"find":
 	{
-		"height": 64.0
+		"height": 52.0
 	},
 	"find_in_files":
 	{
@@ -384,7 +387,7 @@
 	"groups":
 	[
 		{
-			"selected": 5,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -393,15 +396,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2916,
+						"buffer_size": 2915,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2394,
-								2394
+								272,
+								272
 							]
 						],
 						"settings":
@@ -410,14 +413,43 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 3000.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 0,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
+					"file": "server.go",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3429,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								388,
+								396
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
 					"file": "sub.go",
 					"semi_transient": false,
 					"settings":
@@ -442,69 +474,11 @@
 						"translation.y": 1020.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "submarine.sublime-project",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 311,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								311,
-								311
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "server.go",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 3429,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1758,
-								1758
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Go/Go.sublime-syntax",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1655.0,
-						"zoom_level": 1.0
-					},
 					"stack_index": 2,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
+					"buffer": 3,
 					"file": "update.go",
 					"semi_transient": false,
 					"settings":
@@ -529,35 +503,36 @@
 						"translation.y": 32.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 4,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
+					"buffer": 4,
+					"file": "/C/Users/ian_n/Documents/Go/src/ClearSCADA SigFox/server.go",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 53,
+						"buffer_size": 2243,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								19,
-								19
+								1203,
+								1203
 							]
 						],
 						"settings":
 						{
-							"auto_name": "wget -nc -r -np -nH -R index.html https://dnd.rem.",
-							"syntax": "Packages/Text/Plain text.tmLanguage"
+							"syntax": "Packages/Go/Go.sublime-syntax",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 477.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 3,
 					"type": "text"
 				}
 			]
@@ -565,7 +540,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 39.0
+		"height": 52.0
 	},
 	"input":
 	{
@@ -618,7 +593,7 @@
 	"project": "submarine.sublime-project",
 	"replace":
 	{
-		"height": 74.0
+		"height": 96.0
 	},
 	"save_all_on_build": true,
 	"select_file":

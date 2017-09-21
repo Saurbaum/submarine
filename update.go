@@ -39,7 +39,7 @@ func updatePlayers() {
 }
 
 func testCollision(location position) bool {
-	band := 0
+/*	band := 0
 
 	for index, value := range seabed {
 		if location.X < value.X {
@@ -68,6 +68,6 @@ func testCollision(location position) bool {
 	if playerMaxDepth < location.Y {
 		return true
 	}
-
+*/
 	return false
 }

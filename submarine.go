@@ -8,28 +8,28 @@ import (
 	"time"
 )
 
-const maxDepth int64 = 50000
+const maxDepth int64 = 200
 
 const screenWidth int = 1500
 
 const screenHeight int = 1000
 
-const seabedStepWidth int = 10000
+const seabedStepWidth float32 = 10
 
-const seabedSegments int = 50
+const seabedSegments int = 20
 
 const seabedDepthRatio float32 = 2 / float32(maxDepth)
 
 const playerVisualHeight float32 = 0.01
 const playerVisualWidth float32 = 0.01 * float32(float32(screenHeight)/float32(screenWidth))
 
-const maxDistance int = seabedStepWidth * (seabedSegments - 1)
+const maxDistance int = int(seabedStepWidth) * (seabedSegments - 1)
 
 const seabedWitdthRatio float32 = 2 / float32(maxDistance)
 
-var seabed []position
-
 var players = make(map[string]*sub)
+
+var seabottom seabed
 
 func init() {
 	// This is needed to arrange that main() runs on main thread.
@@ -40,7 +40,7 @@ func init() {
 func main() {
 	fmt.Println("Starting Submarine Server")
 
-	generateBottom(seabedSegments)
+	seabottom = CreateSeabed(seabedSegments, seabedStepWidth)
 
 	go updatePlayers()
 
@@ -100,26 +100,7 @@ func render() {
 }
 
 func drawSeabed() {
-	gl.LineWidth(2.5)
-	gl.Color3f(1.0, 1.0, 0.0)
-	gl.Begin(gl.LINES)
-
-	lastX := float32(0)
-	lastY := float32(0)
-
-	for index, value := range seabed {
-		if index > 1 {
-			gl.Vertex3f(lastX, lastY*-1, 0)
-		}
-		x := (float32(value.X) * seabedWitdthRatio) - 1
-		y := (float32(value.Y) * seabedDepthRatio) - 1
-
-		gl.Vertex3f(x, y*-1, 0)
-		lastX = x
-		lastY = y
-	}
-
-	gl.End()
+	seabottom.Render()
 }
 
 func drawPlayers() {
