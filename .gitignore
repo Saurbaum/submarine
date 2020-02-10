@@ -2,3 +2,5 @@
 submarine
 /cmake-build-debug/
 *.sublime-workspace
+
+.idea/
