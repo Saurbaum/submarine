@@ -14,16 +14,49 @@ import (
 const playerIdHeaderKey string = "Playerid"
 const buoyancyHeaderKey string = "Buoyancy"
 const speedHeaderKey string = "Speed"
+const depthRandom int = 3
+
+func getRandomDepth() (int64) {
+	yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
+
+	return yPos.Int64()
+}
 
 func generateBottom(length int) {
-	fmt.Println("Genreating seabed")
+	fmt.Println("Generating seabed")
+
+	startPosition := getRandomDepth()
+
 	for i := 0; i < length; i++ {
-		yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
+		yPos := int64(0)
+		if i == 0 {
+			yPos = startPosition
+		} else {
+			for iDepth := 0; iDepth < depthRandom; iDepth++ {
+				yTemp := getRandomDepth() / int64(depthRandom*10)
+
+				yPos += yTemp
+			}
+
+			postitive, _ := rand.Int(rand.Reader, big.NewInt(2))
+
+			fmt.Println("postitive: ", postitive)
+
+			if postitive.Int64() == int64(1) {
+				yPos = yPos * int64(-1)
+				fmt.Println("Invery yPos ", yPos )
+			}
+
+			yPos = startPosition + yPos
+		}
+
 		x := int64(i * seabedStepWidth)
-		y := yPos.Int64()
+		y := yPos
 		seabed = append(seabed, position{x, y})
 
 		fmt.Print("x: ", x, " y:", y, " ")
+
+		startPosition = y
 	}
 
 	fmt.Println(" ")
