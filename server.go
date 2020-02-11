@@ -47,6 +47,12 @@ func generateBottom(length int) {
 				fmt.Println("Invery yPos ", yPos )
 			}
 
+			proposedY := startPosition + yPos 
+
+			if proposedY <= 0 || proposedY >=maxDepth{
+				yPos = yPos * int64(-1)	
+			}
+
 			yPos = startPosition + yPos
 		}
 
