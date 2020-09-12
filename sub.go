@@ -14,6 +14,7 @@ type sub struct {
 	Alive    bool
 }
 
+// CreateSub spawns a player submarine
 func CreateSub(startPosition position) *sub {
 	return &sub{Speed: 1, Heading: 0, Buoyancy: 0, location: startPosition, updated: time.Now(), Alive: true}
 }

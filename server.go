@@ -11,12 +11,12 @@ import (
 	"strconv"
 )
 
-const playerIdHeaderKey string = "Playerid"
+const playerIDHeaderKey string = "Playerid"
 const buoyancyHeaderKey string = "Buoyancy"
 const speedHeaderKey string = "Speed"
 const depthRandom int = 3
 
-func getRandomDepth() (int64) {
+func getRandomDepth() int64 {
 	yPos, _ := rand.Int(rand.Reader, big.NewInt(maxDepth))
 
 	return yPos.Int64()
@@ -44,13 +44,13 @@ func generateBottom(length int) {
 
 			if postitive.Int64() == int64(1) {
 				yPos = yPos * int64(-1)
-				fmt.Println("Invery yPos ", yPos )
+				fmt.Println("Invery yPos ", yPos)
 			}
 
-			proposedY := startPosition + yPos 
+			proposedY := startPosition + yPos
 
-			if proposedY <= 0 || proposedY >=maxDepth{
-				yPos = yPos * int64(-1)	
+			if proposedY <= 0 || proposedY >= maxDepth {
+				yPos = yPos * int64(-1)
 			}
 
 			yPos = startPosition + yPos
@@ -82,19 +82,19 @@ func startServer() {
 }
 
 func getPlayer(r *http.Request) (*sub, string, error) {
-	if r.Header[playerIdHeaderKey] == nil || len(r.Header[playerIdHeaderKey]) < 1 {
-		return nil, "", errors.New("No playerId")
+	if r.Header[playerIDHeaderKey] == nil || len(r.Header[playerIDHeaderKey]) < 1 {
+		return nil, "", errors.New("No playerID")
 	}
 
-	var playerId = r.Header[playerIdHeaderKey][0]
+	var playerID = r.Header[playerIDHeaderKey][0]
 
-	var p, ok = players[playerId]
+	var p, ok = players[playerID]
 
 	if ok {
-		return p, playerId, nil
+		return p, playerID, nil
 	}
 
-	return nil, playerId, errors.New("Player not found")
+	return nil, playerID, errors.New("Player not found")
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
