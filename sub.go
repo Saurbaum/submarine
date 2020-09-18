@@ -71,7 +71,17 @@ func (s sub) getBuoyancy() float64 {
 }
 
 func (s *sub) setBuoyancy(newBuoyancy float64) {
-	s.Buoyancy -= newBuoyancy
+	if newBuoyancy < 0.1 && newBuoyancy > -0.1 {
+		s.Buoyancy -= newBuoyancy
+	}
+
+	if s.Buoyancy > 1.0 {
+		s.Buoyancy = 1.0
+	}
+
+	if s.Buoyancy < -1.0 {
+		s.Buoyancy = -1.0
+	}
 }
 
 func (s sub) getHeading() float64 {
