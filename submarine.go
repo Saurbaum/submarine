@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-gl/gl/v2.1/gl"
-	"github.com/go-gl/glfw/v3.2/glfw"
 	"runtime"
 	"time"
+
+	"github.com/go-gl/gl/v2.1/gl"
+	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
 const maxDepth int64 = 50000
@@ -16,7 +17,7 @@ const screenHeight int = 1000
 
 const seabedStepWidth int = 1000
 
-const seabedSegments int = 25
+const seabedSegments int = 50
 
 const seabedDepthRatio float32 = 2 / float32(maxDepth)
 
