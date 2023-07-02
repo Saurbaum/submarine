@@ -61,10 +61,10 @@ func render() {
 	}
 	defer glfw.Terminate()
 
-	glfw.WindowHint(glfw.Resizable, glfw.False)
+	glfw.WindowHint(glfw.Resizable, glfw.True)
 	glfw.WindowHint(glfw.ContextVersionMajor, 2)
 	glfw.WindowHint(glfw.ContextVersionMinor, 1)
-	window, err := glfw.CreateWindow(screenWidth, screenHeight, "Submarine", nil, nil)
+	window, err := glfw.CreateWindow(screenWidth/2, screenHeight/2, "Submarine", nil, nil)
 	if err != nil {
 		panic(err)
 	}
