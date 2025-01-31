@@ -7,7 +7,6 @@ import (
 
 type sub struct {
 	Speed    float64
-	Heading  float64
 	Buoyancy float64
 	location position
 	updated  time.Time
@@ -16,7 +15,7 @@ type sub struct {
 
 // CreateSub spawns a player submarine
 func CreateSub(startPosition position) *sub {
-	return &sub{Speed: 1, Heading: 0, Buoyancy: 0, location: startPosition, updated: time.Now(), Alive: true}
+	return &sub{Speed: 1, Buoyancy: 0, location: startPosition, updated: time.Now(), Alive: true}
 }
 
 func (s sub) GetLocation() position {
@@ -71,25 +70,20 @@ func (s sub) getBuoyancy() float64 {
 }
 
 func (s *sub) setBuoyancy(newBuoyancy float64) {
+	buoyancyValue := s.getBuoyancy()
 	if newBuoyancy < 0.1 && newBuoyancy > -0.1 {
-		s.Buoyancy -= newBuoyancy
+		buoyancyValue -= newBuoyancy
 	}
 
-	if s.Buoyancy > 1.0 {
-		s.Buoyancy = 1.0
+	if buoyancyValue > 1.0 {
+		buoyancyValue = 1.0
 	}
 
-	if s.Buoyancy < -1.0 {
-		s.Buoyancy = -1.0
+	if buoyancyValue < -1.0 {
+		buoyancyValue = -1.0
 	}
-}
 
-func (s sub) getHeading() float64 {
-	return s.Heading
-}
-
-func (s *sub) setHeading(newHeading float64) {
-	s.Heading = newHeading
+	s.Buoyancy = buoyancyValue
 }
 
 func (s sub) isAlive() bool {

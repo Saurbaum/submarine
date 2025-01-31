@@ -83,7 +83,7 @@ func startServer() {
 
 func getPlayer(r *http.Request) (*sub, string, error) {
 	if r.Header[playerIDHeaderKey] == nil || len(r.Header[playerIDHeaderKey]) < 1 {
-		return nil, "", errors.New("No playerID")
+		return nil, "", errors.New("no playerid")
 	}
 
 	var playerID = r.Header[playerIDHeaderKey][0]
@@ -94,7 +94,7 @@ func getPlayer(r *http.Request) (*sub, string, error) {
 		return p, playerID, nil
 	}
 
-	return nil, playerID, errors.New("Player not found")
+	return nil, playerID, errors.New("player not found")
 }
 
 func ping(w http.ResponseWriter, r *http.Request) {
@@ -137,12 +137,9 @@ func speed(w http.ResponseWriter, r *http.Request) {
 
 		if err == nil {
 			var speedString = r.Header[speedHeaderKey][0]
-			if err == nil {
-				p.setSpeed(speedString)
-				io.WriteString(w, "speed")
-			} else {
-				io.WriteString(w, err.Error())
-			}
+			p.setSpeed(speedString)
+			io.WriteString(w, "speed")
+
 		} else {
 			io.WriteString(w, err.Error())
 		}
@@ -155,7 +152,7 @@ func status(w http.ResponseWriter, r *http.Request) {
 		var p, _, err = getPlayer(r)
 
 		if err == nil {
-			io.WriteString(w, string(p.GetStatus()))
+			io.Writer.Write(w, p.GetStatus())
 		} else {
 			io.WriteString(w, err.Error())
 		}
@@ -169,7 +166,7 @@ func seabedTest(w http.ResponseWriter, r *http.Request) {
 
 		bed, _ := json.Marshal(seabed)
 
-		io.WriteString(w, string(bed))
+		io.Writer.Write(w, bed)
 	}
 }
 

@@ -65,9 +65,5 @@ func testCollision(location position) bool {
 
 	playerMaxDepth := startDepth + int64(float32(depthDifference)*ratio)
 
-	if playerMaxDepth < location.Y {
-		return true
-	}
-
-	return false
+	return playerMaxDepth < location.Y
 }
