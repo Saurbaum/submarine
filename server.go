@@ -49,7 +49,7 @@ func generateBottom(length int) {
 
 			proposedY := startPosition + yPos
 
-			if proposedY/10 <= 0 || proposedY >= maxDepth {
+			if proposedY <= maxDepth/10 || proposedY >= maxDepth {
 				yPos = yPos * int64(-1)
 			}
 
